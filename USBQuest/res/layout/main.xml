@@ -1,12 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/mainbackground"
     android:orientation="vertical" >
 
     <TextView
-        android:layout_width="fill_parent"
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/Copyright" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dp"
+        android:layout_height="170dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logousbquests" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/questsbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonquests" android:src="@drawable/buttonquests" android:layout_margin="3dp"/>
+
+        <ImageButton
+            android:id="@+id/survivalbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/buttonsurvival" android:background="@drawable/buttonsurvival" android:layout_margin="3dp"/>
+
+        <ImageButton
+            android:id="@+id/statsbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/buttonstats" android:background="@drawable/buttonstats" android:layout_margin="3dp"/>
+
+        <ImageButton
+            android:id="@+id/mapbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/buttonmap" android:background="@drawable/buttonmap" android:layout_margin="3dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

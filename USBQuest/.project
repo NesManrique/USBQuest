@@ -30,4 +30,36 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>res/drawable-hdpi/logousbquests.png</name>
+			<type>1</type>
+			<location>/media/HonDa/Documents/Trabajos/USB/Abril-Julio2012/Interfaces/logousbquests.png</location>
+		</link>
+		<link>
+			<name>res/drawable-ldpi/mapbackground.png</name>
+			<type>1</type>
+			<location>/home/nock/Dropbox/JN/Interfaces/mapbackground.png</location>
+		</link>
+		<link>
+			<name>res/drawable-ldpi/questbackground.png</name>
+			<type>1</type>
+			<location>/home/nock/Dropbox/JN/Interfaces/questbackground.png</location>
+		</link>
+		<link>
+			<name>res/drawable-ldpi/statsbackground.png</name>
+			<type>1</type>
+			<location>/home/nock/Dropbox/JN/Interfaces/statsbackground.png</location>
+		</link>
+		<link>
+			<name>res/drawable-ldpi/survivalbackground.png</name>
+			<type>1</type>
+			<location>/home/nock/Dropbox/JN/Interfaces/survivalbackground.png</location>
+		</link>
+		<link>
+			<name>res/drawable-mdpi/mainbackground.png</name>
+			<type>1</type>
+			<location>/media/HonDa/Documents/Trabajos/USB/Abril-Julio2012/Interfaces/mainbackground.png</location>
+		</link>
+	</linkedResources>
 </projectDescription>

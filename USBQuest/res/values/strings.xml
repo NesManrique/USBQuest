@@ -2,6 +2,21 @@
 <resources>
 
     <string name="hello">Hello World, USBQuestActivity!</string>
-    <string name="app_name">USBQuest</string>
+    <string name="app_name">USBQuest</string><string name="quests">quests</string>
+    <string name="survival">survival</string><string name="Copyright">Copyright - 2012</string>
+    <string name="maintitle">USBQuests</string>
+    <string name="queststitle">QUESTS</string>
+    
+    
+    <string name="survivaltitle">Survival</string>
+    <string name="statsbutton">statsbutton</string>
+    <string name="questsbutton">quests</string>
+    <string name="survivalbutton">survivalbutton</string>
+    <string name="mapbutton">mapbutton</string>
+    <string name="pensumbutton">pensumbutton</string>
+    <string name="calendarbutton">calendarbutton</string>
+    <string name="achievementsbutton">achievementsbutton</string>
+    <string name="changeprofbutton">changeprofbutton</string>
+    <string name="statstitle">Stats</string>
 
 </resources>
