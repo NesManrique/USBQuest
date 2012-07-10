@@ -26,6 +26,8 @@
         <activity android:name=".masteries"></activity>
         <activity android:name=".calendar"></activity>
         <activity android:name=".changedata"></activity>
+        <activity android:name=".InProgress"></activity>
+        <activity android:name=".QuestList"></activity>
     </application>
 
 </manifest>

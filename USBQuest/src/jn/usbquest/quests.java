@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 
 public class quests extends TabActivity {
 	/** Called when the activity is first created. */
@@ -15,11 +16,14 @@ public class quests extends TabActivity {
 		setContentView(R.layout.quests);
 
 		TabHost m = getTabHost();
-
+		
+		Intent in1 = new Intent(this, InProgress.class);
+		Intent in2 = new Intent(this, QuestList.class);
+		
 		m.addTab(m.newTabSpec("inprogress").setIndicator("In Progress")
-				.setContent(R.id.tab1));
+				.setContent(in1));
 		m.addTab(m.newTabSpec("questlist").setIndicator("Quest List")
-				.setContent(R.id.tab2));
+				.setContent(in2));
 
 		ImageButton back = (ImageButton) findViewById(R.id.backbutton);
 		back.setOnClickListener(new View.OnClickListener() {
