@@ -20,10 +20,10 @@ public class quests extends TabActivity {
 		Intent in1 = new Intent(this, InProgress.class);
 		Intent in2 = new Intent(this, QuestList.class);
 		
-		m.addTab(m.newTabSpec("inprogress").setIndicator("In Progress")
-				.setContent(in1));
-		m.addTab(m.newTabSpec("questlist").setIndicator("Quest List")
-				.setContent(in2));
+		m.addTab(m.newTabSpec("inprogress").setIndicator("", 
+				getResources().getDrawable(R.drawable.inprogress)).setContent(in1));
+		m.addTab(m.newTabSpec("questlist").setIndicator("", 
+				getResources().getDrawable(R.drawable.questlist)).setContent(in2));
 
 		ImageButton back = (ImageButton) findViewById(R.id.backbutton);
 		back.setOnClickListener(new View.OnClickListener() {

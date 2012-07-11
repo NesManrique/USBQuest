@@ -20,10 +20,19 @@ public class questspecdao {
 	private SQLiteDatabase database;
 	private MySQLiteHelper dbHelper;
 	private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-			MySQLiteHelper.COLUMN_TITLE,
-			MySQLiteHelper.COLUMN_STEPS,
+			MySQLiteHelper.COLUMN_STATUS,
 			MySQLiteHelper.COLUMN_OBJECTIVES,
-			MySQLiteHelper.COLUMN_STATUS };
+			MySQLiteHelper.COLUMN_TITLE,
+			MySQLiteHelper.COLUMN_STEP1,
+			MySQLiteHelper.COLUMN_STEP2,
+			MySQLiteHelper.COLUMN_STEP3,
+			MySQLiteHelper.COLUMN_STEP4,
+			MySQLiteHelper.COLUMN_STEP5,
+			MySQLiteHelper.COLUMN_STEP6,
+			MySQLiteHelper.COLUMN_STEP7,
+			MySQLiteHelper.COLUMN_STEP8,
+			MySQLiteHelper.COLUMN_STEP9,
+			MySQLiteHelper.COLUMN_STEP10 };
 
 	public questspecdao(Context context) {
 		dbHelper = new MySQLiteHelper(context);
@@ -37,13 +46,12 @@ public class questspecdao {
 		dbHelper.close();
 	}
 
-	public questspec createQuest(String title, ArrayList<String> steps) {
+	public questspec createQuest(String title, long status, ArrayList<String> steps) {
 		
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_TITLE, title);
 		
-		byte[] st = SerializeS(steps);
-		values.put(MySQLiteHelper.COLUMN_STEPS, st);
+		values.put(MySQLiteHelper.COLUMN_STATUS, 0);
 		
 		ArrayList<Integer> objectives = new ArrayList<Integer>();
 		for (String s : steps){
@@ -53,7 +61,9 @@ public class questspecdao {
 		byte[] ob = SerializeI(objectives);
 		values.put(MySQLiteHelper.COLUMN_OBJECTIVES, ob);
 		
-		values.put(MySQLiteHelper.COLUMN_STATUS, 0);
+		for(int i=0; i<steps.size(); i++){
+			values.put("step"+(i+1), steps.get(i));
+		}
 		
 		long insertId = database.insert(MySQLiteHelper.TABLE_QUESTS, null,
 				values);
@@ -73,13 +83,16 @@ public class questspecdao {
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_TITLE, q.getTitle());
 		
-		byte[] st = SerializeS(q.getSteps());
-		values.put(MySQLiteHelper.COLUMN_STEPS, st);
+		values.put(MySQLiteHelper.COLUMN_STATUS, q.getStatus());
 		
 		byte[] ob = SerializeI(q.getObjs());
 		values.put(MySQLiteHelper.COLUMN_OBJECTIVES, ob);
 		
-		values.put(MySQLiteHelper.COLUMN_STATUS, 0);
+		ArrayList<String> steps = q.getSteps();
+		
+		for(int i=0; i<steps.size(); i++){
+			values.put("step"+(i+1), steps.get(i));
+		}
 		
 		return database.update(MySQLiteHelper.TABLE_QUESTS, values, MySQLiteHelper.COLUMN_ID+"=?", 
 				new String[]{String.valueOf(q.getId())});
@@ -89,6 +102,12 @@ public class questspecdao {
 
 	public void deleteQuest(questspec quest) {
 		long id = quest.getId();
+		System.out.println("Quest deleted with id: " + id);
+		database.delete(MySQLiteHelper.TABLE_QUESTS, MySQLiteHelper.COLUMN_ID
+				+ " = " + id, null);
+	}
+	
+	public void deleteQuest(long id) {
 		System.out.println("Comment deleted with id: " + id);
 		database.delete(MySQLiteHelper.TABLE_QUESTS, MySQLiteHelper.COLUMN_ID
 				+ " = " + id, null);
@@ -110,46 +129,57 @@ public class questspecdao {
 		cursor.close();
 		return quests;
 	}
+	
+	public List<questspec> getInProgressQuests(){
+		
+		List<questspec> quests = new ArrayList<questspec>();
+
+		Cursor cursor = database.rawQuery("SELECT * FROM quests WHERE status=2;",null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			questspec quest = cursorToQuest(cursor);
+			quests.add(quest);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return quests;
+	}
+	
+	public List<questspec> getAvailableQuests(){
+		
+		List<questspec> quests = new ArrayList<questspec>();
+
+		Cursor cursor = database.rawQuery("SELECT * FROM quests WHERE status=1;",null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			questspec quest = cursorToQuest(cursor);
+			quests.add(quest);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return quests;
+	}
 
 	private questspec cursorToQuest(Cursor cursor) {
 		questspec quest = new questspec();
 		quest.setId(cursor.getLong(0));
 		quest.setTitle(cursor.getString(1));
-		quest.setSteps(UnserializeS(cursor.getBlob(2)));
+		quest.setStatus(cursor.getLong(2));
 		quest.setObj(UnserializeI(cursor.getBlob(3)));
-		quest.setStatus(cursor.getLong(4));
-		return quest;
-	}
-	
-	private byte[] SerializeS(ArrayList<String> S){
-		ByteArrayOutputStream bout = new ByteArrayOutputStream();
-	    DataOutputStream dout = new DataOutputStream(bout);
-	    try{
-	    	for (String l : S) {
-	    		dout.writeUTF(l);
-	    	}
-	    	dout.close();
-	    }catch(IOException s){
-	    	System.out.println("Error trying to serialize\n");
-	    }
-	    byte[] asBytes = bout.toByteArray();
-	    return asBytes;
-	}
-	
-	private ArrayList<String> UnserializeS(byte[] S){
+		
 		ArrayList<String> steps = new ArrayList<String>();
 		
-	    ByteArrayInputStream bin = new ByteArrayInputStream(S);
-	    DataInputStream din = new DataInputStream(bin);
-	    try{
-	    	for (int i = 0; i < S.length/8; i++) {
-	    		steps.add(din.readUTF());
-	    	}
-	    }catch(IOException s){
-	    	System.out.println("Error trying to unserialize\n");
-	    }
-	    
-	    return steps;
+		for(int i=4; i<cursor.getColumnCount(); i++){
+			steps.add(cursor.getString(i));
+		}
+		
+		quest.setSteps(steps);
+		
+		return quest;
 	}
 	
 	private byte[] SerializeI(ArrayList<Integer> S){
@@ -161,7 +191,7 @@ public class questspecdao {
 	    	}
 	    	dout.close();
 	    }catch(IOException s){
-	    	System.out.println("Error trying to serialize\n");
+	    	System.err.println("Error trying to serialize integer\n");
 	    }
 	    byte[] asBytes = bout.toByteArray();
 	    return asBytes;
@@ -173,11 +203,11 @@ public class questspecdao {
 	    ByteArrayInputStream bin = new ByteArrayInputStream(S);
 	    DataInputStream din = new DataInputStream(bin);
 	    try{
-	    	for (int i = 0; i < S.length/8; i++) {
+	    	for (int i = 0; i < S.length/4; i++) {
 	    		obj.add(din.readInt());
 	    	}
 	    }catch(IOException s){
-	    	System.out.println("Error trying to unserialize\n");
+	    	System.err.println("Error trying to unserialize integer\n");
 	    }
 	    
 	    return obj;

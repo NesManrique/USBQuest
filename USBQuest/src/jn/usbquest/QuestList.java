@@ -19,13 +19,17 @@ public class QuestList extends ListActivity {
 		datasource = new questspecdao(this);
 		datasource.open();
 
-		List<questspec> values = datasource.getAllQuests();
+		List<questspec> values = datasource.getAvailableQuests();
 
 		// Use the SimpleCursorAdapter to show the
 		// elements in a ListView
 		ArrayAdapter<questspec> adapter = new ArrayAdapter<questspec>(this,
 				R.layout.questrow, values);
 		setListAdapter(adapter);
+	}
+	
+	protected void onClick(){
+		
 	}
 	
 	@Override

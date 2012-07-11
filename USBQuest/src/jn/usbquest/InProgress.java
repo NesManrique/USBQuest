@@ -18,17 +18,8 @@ public class InProgress extends ListActivity {
 
 		datasource = new questspecdao(this);
 		datasource.open();
-		
-		ArrayList<String> S = new ArrayList<String>();
-		S.add("Paso 1");
-		S.add("Paso 2");
-		S.add("Paso 3");
-		
-		questspec q = datasource.createQuest("Quest1", S);
-		
-		System.out.println(q);
 
-		List<questspec> values = datasource.getAllQuests();
+		List<questspec> values = datasource.getInProgressQuests();
 
 		// Use the SimpleCursorAdapter to show the
 		// elements in a ListView
@@ -36,7 +27,6 @@ public class InProgress extends ListActivity {
 				R.layout.questrow, values);
 		setListAdapter(adapter);
 		
-		//datasource.deleteQuest(q);
 	}
 	
 	@Override
